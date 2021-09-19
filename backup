@@ -8,16 +8,24 @@
 # To avoid backing up a file/directory,
 # prepend ! to that file/dir name in the config file
 
-docs_to_backup="Documents Pictures Projects .anacron .config .inputrc .local
-.local.share .mail .mailcap .newsboat .password-store .w3m
-.Rprofile Templates .fonts"
-
 # switch to home directory
 cd $HOME
-# all files (exclude git repo)
-find $docs_to_backup ! -iregex ".*\.git.*" > /tmp/backup_files
+
+# parse the config file
+while read directory; do
+    if [[ "$directory" =~ '!' ]]; then
+        not_to_backup+="-path \"*${directory:1}*\" -prune -o "
+    else
+        docs_to_backup+="$directory "
+    fi
+done < ~/.config/backup/conf
+
+# find all filenames to backup and not to backup,
+# and save them in a temporary file
+command="find $docs_to_backup $not_to_backup -print"
+eval "$command" > /tmp/backup
 # archive name
 archive="$( date +"%Y-%m-%d" )_backup.tar.gz"
 # execute the backup
-sudo tar --no-recursion -cvz -T /tmp/backup_files -f $1/$archive
+sudo tar --no-recursion -cvz -T /tmp/backup -f $1/$archive
 # vim: ft=bash
