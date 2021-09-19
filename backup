@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# this script makes a backup of important files 
+# in home directory. Arguments: destination folder
+
+docs_to_backup="Documents Pictures Projects .anacron .config .inputrc .local
+.local.share .mail .mailcap .newsboat .password-store .w3m
+.Rprofile Templates .fonts"
+
+# switch to home directory
+cd $HOME
+# all files (exclude git repo)
+find $docs_to_backup ! -iregex ".*\.git.*" > /tmp/backup_files
+# archive name
+archive="$( date +"%Y-%m-%d" )_backup.tar.gz"
+# execute the backup
+sudo tar --no-recursion -cvz -T /tmp/backup_files -f $1/$archive
+# vim: ft=bash
