@@ -94,8 +94,11 @@ while getopts $optstring name; do
         :) if [ "$OPTARG" = "c" ]; then
             echo "You need to specify a configuration file"
         elif [ "$OPTARG" = "f" ]; then
-            echo "You need to specify a destination directory!"
+            echo "You need to specify a destination directory"
+        elif [ "$OPTARG" = "i" ]; then
+            echo "You need to specify a list of comma separated files"
         fi
+        usage
         exit 1
         ;;
         *) echo "$OPTARG is not a valid option"; usage; exit 1;;
