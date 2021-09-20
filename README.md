@@ -37,6 +37,13 @@ the -i flag.
 Remember that for both the -c and -f flag, you must specify absolute paths.
 
 
+## REQUIREMENTS
+
+* bash
+
+* tar
+
+
 ## CONFIGURATION
 
 The configuration is very simple: a file or directory name for every line. If
