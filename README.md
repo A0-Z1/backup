@@ -26,12 +26,12 @@ example, if you type:
 backup will archive and compress everything specified in the configuration
 file (recursively), and then save the archive in
 /mnt/backup_dir/YYYY_MM_DD_backup.tar.gz.
-If the configuration file is empty, backup will prompt just backup the entire
+If the configuration file is empty, backup will just backup the entire
 filesystem starting from \$HOME. If the -f flag is missing, it defaults
-to \$HOME
+to \$HOME.
 
 You can specify a different configuration file with -c flag, or you can
-list the files and directories to backups as a comma separated list with
+list the files and directories to backup as a comma separated list with
 the -i flag.
 
 Remember that for both the -c and -f flag, you must specify absolute paths.
@@ -40,9 +40,9 @@ Remember that for both the -c and -f flag, you must specify absolute paths.
 ## CONFIGURATION
 
 The configuration is very simple: a file or directory name for every line. If
-you want to excl ude something from the backup that would otherwise be
-included, write it like you would normally do to i nclude it, but prepend it
-with a bang: '!'. That's it.
+you want to exclude something from the backup that would otherwise be
+included, write it like you would normally do to include it, but prepend a
+bang to it: '!'. That's it.
 
 ## INSTALLATION
 
