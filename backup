@@ -11,20 +11,44 @@
 function usage {
     cat <<EOF
 
-    backup [-h][-c <config>] -f <backup_file>
+    backup [-h][-c <config>][-i <files>][-f <backup_directory>]
 
-backup is a cli utility that does only one thing, in a very dumb way: parses
-through a configuration file located in '\$HOME/.config/backup/conf' and
-archives and compresses all the files and directories specified in that
-configuration, and stores the result in a file of your choice. For example, if
-you type:
+    backup -h
+        print this help and exit
 
-    backup /mnt/backup_file
+    backup -c <config>
+        Specify a different configuration file
 
-backup will archive and compress everyth ing specified in the configuration
-file (rec ursively), and then save the archive in /mnt/backup _file. If
-the configuration file or the directory do not exist, backup will prompt
-just backup the entire filesystem starting from \$HOME
+    backup -i <files>
+        Specify the files to backup as a comma separated list.
+        This will ignore the configuration file.
+
+    backup -f <backup_directory>
+        Save the archive in <backup_directory>.
+
+backup is a cli utility that does only one thing, in a very dumb way:
+parses through a configuration file located in '\$HOME/.config/backup/conf' by
+default and archives and compresses all the files and directories specified in
+that configuration, and stores the result in a directory of your choice. For
+example, if you type:
+
+    backup -f /mnt/backup_dir
+
+backup will archive and compress everything specified in the configuration
+file (recursively), and then save the archive in
+/mnt/backup_dir/YYYY_MM_DD_backup.tar.gz.
+If the configuration file is empty, backup will prompt just backup the entire
+filesystem starting from \$HOME. If the -f flag is missing, it defaults
+to \$HOME
+
+You can specify a different configuration file with -c flag, or you can
+list the files and directories to backups as a comma separated list with
+the -i flag.
+
+Remember that for both the -c and -f flag, you must specify absolute paths.
+
+
+CONFIGURATION
 
 The configuration is very simple: a file or directory name for every line. If
 you want to excl ude something from the backup that would otherwise be
