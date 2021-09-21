@@ -15,6 +15,9 @@
     backup -f <backup_directory>
         Save the archive in <backup_directory>.
 
+    backup -o <output>
+        Save the archive as <output>
+
 backup is a cli utility that does only one thing, in a very dumb way:
 parses through a configuration file located in '\$HOME/.config/backup/conf' by
 default and archives and compresses all the files and directories specified in
@@ -40,8 +43,6 @@ Remember that for both the -c and -f flag, you must specify absolute paths.
 ## REQUIREMENTS
 
 * bash
-
-* tar
 
 
 ## CONFIGURATION

@@ -11,7 +11,7 @@
 function usage {
     cat <<EOF
 
-    backup [-h][-c <config>][-i <files>][-f <backup_directory>]
+    backup [-h][-c <config>][-i <files>][-f <backup_directory>][-o <output>]
 
     backup -h
         print this help and exit
@@ -25,6 +25,9 @@ function usage {
 
     backup -f <backup_directory>
         Save the archive in <backup_directory>.
+
+    backup -o <output>
+        Save the archive as <output>
 
 backup is a cli utility that does only one thing, in a very dumb way:
 parses through a configuration file located in '\$HOME/.config/backup/conf' by
@@ -81,12 +84,13 @@ function line_parser {
 }
 
 # parse commandline
-optstring=":hc:f:i:"
+optstring=":hc:f:i:o:"
 while getopts $optstring name; do
     case $name in
         h) usage; exit 0;;
         c) configuration=$OPTARG;;
         f) destination=$OPTARG;;
+        o) archive=$OPTARG;;
         i) 
             line_parser $OPTARG
             configuration="/tmp/configuration"
@@ -120,7 +124,7 @@ exe=$( parser $configuration )
 # and save them in a temporary file
 eval "$exe" > /tmp/backup
 # archive name
-archive="$( date +"%Y-%m-%d" )_backup.tar.gz"
+[ -z "$archive" ] && archive="$( date +"%Y-%m-%d" )_backup.tar.gz"
 # execute the backup
 tar --no-recursion -cvz -T /tmp/backup -f $destination/$archive
 # vim: ft=bash
