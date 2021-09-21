@@ -11,7 +11,7 @@ optstring=":hu"
 while getopts $optstring name; do
     case $name in
         h) echo "Installer for backup cli utility: -h for help; -u to install as user"; exit;;
-        u) /usr/bin/cp ./backup $HOME/.local/bin/backup && echo "Installation comlete"; exit;;
+        u) /usr/bin/cp ./backup $HOME/.local/bin/backup && echo "Installation complete"; exit;;
         *) echo "$OPTARG is not a valid option"; usage; exit 1;;
     esac
 done
