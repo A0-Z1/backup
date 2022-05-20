@@ -61,6 +61,21 @@ with a bang: '!'. That's it.
 EOF
 }
 
+function loading {
+
+    pid=$!
+    frames="/ - \\ |"
+    
+    while kill -0 $pid > /dev/null 2>&1; do
+        for frame in $frames; do
+            printf "\r$frame Backing up..."
+            sleep 0.5
+        done
+    done
+    
+    printf "\n"
+}
+
 function parser {
     # check if conf file exists and it is not a directory
     [ -e "$1" -a ! -d "$1"  ] || return 0
@@ -124,7 +139,14 @@ exe=$( parser $configuration )
 # and save them in a temporary file
 eval "$exe" > /tmp/backup
 # archive name
-[ -z "$archive" ] && archive="$( date +"%Y-%m-%d" )_backup.tar.gz"
+[ -z "$archive" ] && archive="$( date +"%Y-%m-%d" )_backup"
 # execute the backup
-tar --no-recursion -cvz -T /tmp/backup -f $destination/$archive
+path="$destination/$archive"
+mkdir -p $path
+log="$path/$archive.log"
+{ tar --no-recursion -cz -T /tmp/backup -f "$path/$archive.tar.gx" > $log 2>&1; } &
+echo
+loading
+echo "Operation completed, backup in $path"
+echo
 # vim: ft=bash
